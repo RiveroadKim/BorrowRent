@@ -1,0 +1,138 @@
+CREATE TABLE USER (
+    userEmail VARCHAR(191) NOT NULL PRIMARY KEY,
+    userPassword VARCHAR(255) NOT NULL,
+    userName VARCHAR(255) NOT NULL,
+    userGender VARCHAR(255) NOT NULL,
+    userBirth VARCHAR(255) NOT NULL,
+    userPnum VARCHAR(255) NOT NULL,
+    userAddress VARCHAR(255) NOT NULL,
+    userStudent LONGBLOB NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+// 공지사항 테이블 생성 코드
+CREATE TABLE notice (
+    userEmail VARCHAR(191) NOT NULL,
+    title VARCHAR(191) NOT NULL,
+    content TEXT NOT NULL,
+    date DATETIME NOT NULL,
+    PRIMARY KEY (userEmail, title),
+    CONSTRAINT fk_userEmail FOREIGN KEY (userEmail) REFERENCES USER(userEmail) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+<%@ page import="notice.NoticeDao" %>
+
+// 문의하기 테이블 생성 코드
+CREATE TABLE inquiry (
+    userEmail VARCHAR(191) NOT NULL,
+    title VARCHAR(191) NOT NULL,
+    content TEXT NOT NULL,
+    date DATETIME NOT NULL,
+    answer VARCHAR(255) DEFAULT '처리중',
+    response TEXT NULL,
+    PRIMARY KEY (userEmail, title),
+    CONSTRAINT fk_inquiry_userEmail FOREIGN KEY (userEmail) REFERENCES USER(userEmail) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+// item_laptop
+CREATE TABLE Items_laptop (
+    lapID int NOT NULL AUTO_INCREMENT,
+    lapName varchar(255) NOT NULL,
+    lapQuan int NOT NULL,
+    lapYear int NOT NULL,
+    lapPrice int NOT NULL,
+    lapBrand varchar(255) NOT NULL,
+    lapModel varchar(255) NOT NULL,
+    lapColor varchar(255) NOT NULL,
+    lapGraphic varchar(255) NOT NULL,
+    lapOS varchar(255) NOT NULL,
+    lapCPU varchar(255) NOT NULL,
+    lapMemory varchar(255) NOT NULL,
+    lapAvailable int NULL,
+    userEmail varchar(191) NULL,
+    userName varchar(255) NULL,
+    PRIMARY KEY (lapID)
+);
+
+// item_tp
+CREATE TABLE Items_tp (
+    tpID int NOT NULL AUTO_INCREMENT,
+    tpName varchar(255) NOT NULL,
+    tpQuan varchar(255) NOT NULL,
+    tpYear varchar(4) NOT NULL,
+    tpPrice decimal(10,2) NOT NULL,
+    tpBrand varchar(255) NOT NULL,
+    tpModel varchar(255) NOT NULL,
+    tpColor varchar(255) NOT NULL,
+    tpMemory varchar(255) NOT NULL,
+    tpAvailable int NULL,
+    userEmail varchar(191) NULL,
+    userName varchar(255) NULL,
+    PRIMARY KEY (tpID)
+);
+
+// laptop_img
+CREATE TABLE Laptop_img (
+    lap_img_ID int NOT NULL AUTO_INCREMENT,
+    lap_img_name varchar(255) NULL,
+    lapID int NULL,
+    lap_img_path varchar(255) NULL,
+    PRIMARY KEY (lap_img_ID)
+);
+
+// tp_img
+CREATE TABLE Tp_img (
+    tp_img_ID int NOT NULL AUTO_INCREMENT,
+    tp_img_Name varchar(255) NULL,
+    tpID int NULL,
+    tp_img_path varchar(255) NULL,
+    PRIMARY KEY (tp_img_ID)
+);
+
+CREATE TABLE Order_form_lap (
+    orderID VARCHAR(36) NOT NULL,
+    orderQuan INT NOT NULL,
+    orderRent VARCHAR(255) NOT NULL,
+    orderName VARCHAR(255) NOT NULL,
+    orderEmail VARCHAR(255) NOT NULL,
+    orderPnum VARCHAR(255) NOT NULL,
+    orderAdd1 VARCHAR(255) NOT NULL,
+    orderAdd2 VARCHAR(255) NOT NULL,
+    orderReq VARCHAR(255) NOT NULL,
+    orderTotal INT NOT NULL,
+    orderNow TIMESTAMP NOT NULL,
+    orderReturn TIMESTAMP NOT NULL,
+    userEmail VARCHAR(255) NOT NULL,
+    lapID INT,
+    PRIMARY KEY (orderID),
+    FOREIGN KEY (lapID) REFERENCES Items_laptop(lapID) ON DELETE CASCADE,
+    FOREIGN KEY (userEmail) REFERENCES user(userEmail)
+);
+
+CREATE TABLE Order_form_tp (
+    orderID VARCHAR(36) NOT NULL,
+    orderQuan INT NOT NULL,
+    orderRent VARCHAR(255) NOT NULL,
+    orderName VARCHAR(255) NOT NULL,
+    orderEmail VARCHAR(255) NOT NULL,
+    orderPnum VARCHAR(255) NOT NULL,
+    orderAdd1 VARCHAR(255) NOT NULL,
+    orderAdd2 VARCHAR(255) NOT NULL,
+    orderReq VARCHAR(255) NOT NULL,
+    orderTotal INT NOT NULL,
+    orderNow TIMESTAMP NOT NULL,
+    orderReturn TIMESTAMP NOT NULL,
+    userEmail VARCHAR(255) NOT NULL,
+    tpID INT,
+    PRIMARY KEY (orderID),
+    FOREIGN KEY (tpID) REFERENCES Items_tp(tpID) ON DELETE CASCADE,
+    FOREIGN KEY (userEmail) REFERENCES user(userEmail)
+);
+
+
+CREATE TABLE Alarm (
+    userEmail VARCHAR(191) NOT NULL,
+    title VARCHAR(191) NOT NULL,
+    PRIMARY KEY (userEmail, title)
+);
+

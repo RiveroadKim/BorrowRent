@@ -1,0 +1,55 @@
+배포한 웹사이트 비밀번호 : capstone135!
+
+넣는 곳 : war 파일 -> ROOT.war 로 이름 바꾸고 tomcat/webapps 경로에 넣으면 됨
+
+
+
+꼭 확인!!!!!!!!!!!!!
+
+String dbURL = "jdbc:mariadb://localhost:3306/hanafos944?useSSL=false";
+            String dbID = "hanafos944";
+            String dbPassword = "capstone135!";
+            Class.forName("org.mariadb.jdbc.Driver");
+
+String dbURL = "jdbc:mysql://localhost:3306/caps";
+            String dbID = "root";
+            String dbPassword = "0000";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+
+배포는 이런식으로 짜줘야하고
+
+Dao 파일안의 sql 문 싹다 대소문자 구분 확실히 해줘야함!
+
+
+
+아.. 해결했습니다...
+
+USERTABLE 이라는 테이블명을 usertable로 생성했었는데요.
+
+sql 툴로 조회시에는 대소문자 구분없이
+
+SELECT * FROM USERTABLE 혹은 SELECT * FROM usertable 로 해도 잘 조회가 되어서
+
+대소문자에 신경을 쓰지 않고 있었어요.
+
+그런데 호스팅 할 때는 대소문자를 구문해야 되네요..
+
+[jdbc 코드]
+
+String driver = "com.mysql.cj.jdbc.Driver";
+
+String sql = "SELECT * FROM usertable WHERE USERID='"+ userId + "'";
+
+String url = "jdbc:mysql://localhost:3306/카페24아이디?useSSL=false";
+
+String dbId = "카페24아이디";
+
+String dbPw = "카페24비밀번호";
+
+
+
+mysql -u hanafos944 -p hanafos944
+
+<% response.sendRedirect("/template/mainpage.jsp"); %>
+
